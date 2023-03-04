@@ -1,0 +1,45 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: MyAwesomeLambda
+
+Parameters:
+
+  RailsEnv:
+    Type: String
+    Default: staging
+    AllowedValues:
+      - staging
+      - production
+
+Globals:
+
+  Function:
+    Environment:
+      Variables:
+        RAILS_ENV: !Ref RailsEnv
+
+Resources:
+
+  RailsLambda:
+    Type: AWS::Serverless::Function
+    Metadata:
+      DockerContext: .
+      Dockerfile: Dockerfile
+      DockerTag: web
+    Properties:
+      Architectures:
+        - arm64
+      AutoPublishAlias: live
+      FunctionUrlConfig:
+        AuthType: NONE
+      DeploymentPreference:
+        Type: AllAtOnce
+      MemorySize: 1792
+      PackageType: Image
+      Timeout: 30
+
+Outputs:
+
+  RailsLambdaUrl:
+    Description: Lambda Function URL
+    Value: !GetAtt RailsLambdaUrl.FunctionUrl
