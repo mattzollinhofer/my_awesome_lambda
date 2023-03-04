@@ -13,7 +13,7 @@ gem "jbuilder"
 gem "mail", "2.7.1" # Temp: https://github.com/mikel/mail/issues/1541
 
 group :development, :test do
-  gem "debug"
+  # gem "debug"
   gem "webrick"
 end
 
